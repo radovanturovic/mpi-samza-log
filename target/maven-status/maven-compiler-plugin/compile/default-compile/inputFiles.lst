@@ -1,0 +1,5 @@
+/home/aleksandar/samzaWorkspace/SamzaLogProcessor/src/main/java/samza/streaming/task/DataStreamTask.java
+/home/aleksandar/samzaWorkspace/SamzaLogProcessor/src/main/java/samza/streaming/client/StreamClient.java
+/home/aleksandar/samzaWorkspace/SamzaLogProcessor/src/main/java/samza/util/DBManager.java
+/home/aleksandar/samzaWorkspace/SamzaLogProcessor/src/main/java/samza/streaming/factory/StreamSystemFactory.java
+/home/aleksandar/samzaWorkspace/SamzaLogProcessor/src/main/java/samza/streaming/factory/StreamConsumer.java
