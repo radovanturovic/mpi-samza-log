@@ -18,16 +18,24 @@ Prilikom pokretanja primera, samostalno će se instalirati:
 ## Pokretanje
 
 Preuzeti primer sa: 
-> git clone https://github.com/aleksandarbirca/mpi-samza-log.git
-> cd mpi-samza-log
+```
+git clone https://github.com/aleksandarbirca/mpi-samza-log.git
+cd mpi-samza-log
+```
 
 Buildovati kod:
-> mvn clean package
+```
+mvn clean package
+```
 
 Pokrenuti bootstrap skriptu:
-> bin/grid bootstrap
-> mkdir -p deploy/samza
-> tar -xvf target/--releaseName.tar deploy/samza
+```
+bin/grid bootstrap
+mkdir -p deploy/samza
+tar -xvf target/--releaseName.tar deploy/samza
+```
 
 Pokrenuti poslove:
-> deploy/samza/bin/run-job.sh --config-factory=fullPackagePathTo.PropertiesConfigFactory --config-path=file://$PWD/pathToProperties/propertiesfile.properties 
+```
+deploy/samza/bin/run-job.sh --config-factory=fullPackagePathTo.PropertiesConfigFactory --config-path=file://$PWD/pathToProperties/propertiesfile.properties 
+```
