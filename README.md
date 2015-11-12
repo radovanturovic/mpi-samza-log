@@ -32,7 +32,7 @@ Pokrenuti bootstrap skriptu:
 ```
 bin/grid bootstrap
 mkdir -p deploy/samza
-tar -xvf target/--releaseName.tar deploy/samza
+tar -xvf target/--releaseName.tar -C deploy/samza
 ```
 
 Pokrenuti poslove:
