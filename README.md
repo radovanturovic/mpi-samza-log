@@ -17,25 +17,38 @@ Prilikom pokretanja primera, samostalno će se instalirati:
 
 ## Pokretanje
 
-Preuzeti primer sa: 
+### Preuzeti primer sa: 
 ```
 git clone https://github.com/aleksandarbirca/mpi-samza-log.git
 cd mpi-samza-log
 ```
 
-Buildovati kod:
+### Buildovati kod:
 ```
 mvn clean package
 ```
 
-Pokrenuti bootstrap skriptu:
+### Pokrenuti bootstrap skriptu:
 ```
 bin/grid bootstrap
 mkdir -p deploy/samza
 tar -xvf target/--releaseName.tar -C deploy/samza
 ```
 
-Pokrenuti poslove:
+### Pokrenuti poslove:
 ```
 deploy/samza/bin/run-job.sh --config-factory=fullPackagePathTo.PropertiesConfigFactory --config-path=file://$PWD/pathToProperties/propertiesfile.properties 
+```
+Konkretno za DataStreamTask:
+```
+deploy/samza/bin/run-job.sh --config-factory=org.apache.samza.config.factories.PropertiesConfigFactory --config-path=file://$PWD/deploy/samza/config/data-stream.properties
+```
+
+### Pregled pristiglih poruka u topic:
+```
+deploy/kafka/bin/kafka-console-consumer.sh  --zookeeper localhost:<port> --topic <topic-name>
+```
+Konkretno za DataStreamTask:
+```
+deploy/kafka/bin/kafka-console-consumer.sh  --zookeeper localhost:2181 --topic links-raw
 ```
