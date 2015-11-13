@@ -13,7 +13,7 @@ public class DataStreamTask implements StreamTask {
 
     @Override
     public void process(IncomingMessageEnvelope envelope, MessageCollector collector, TaskCoordinator coordinator) {
-        final String url = (String) envelope.getMessage();
-        collector.send(new OutgoingMessageEnvelope(OUTPUT_STREAM, url));
+        final String logLine = (String) envelope.getMessage();
+        collector.send(new OutgoingMessageEnvelope(OUTPUT_STREAM, logLine));
     }
 }
