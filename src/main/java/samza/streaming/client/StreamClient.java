@@ -13,6 +13,7 @@ public class StreamClient {
     private boolean active;
 
     public StreamClient() {
+    	/*
         try (Stream<String> stream = Files.lines(Paths.get("development.log"), Charset.defaultCharset())) {
             stream.filter(e -> e != null || !e.isEmpty() || !e.startsWith("[")).forEach(e -> {
                 try {
@@ -24,7 +25,14 @@ public class StreamClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
         active = true;
+    	try {
+			queue.put("test");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public void stop() {
