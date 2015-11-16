@@ -12,9 +12,9 @@ public class StreamClient {
     private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>(100);
     private boolean active;
 
-    public StreamClient() {
+    public StreamClient(String source) {
     	/*
-        try (Stream<String> stream = Files.lines(Paths.get("development.log"), Charset.defaultCharset())) {
+        try (Stream<String> stream = Files.lines(Paths.get(source), Charset.defaultCharset())) {
             stream.filter(e -> e != null || !e.isEmpty() || !e.startsWith("[")).forEach(e -> {
                 try {
                     queue.put(e.substring(e.indexOf(']')));

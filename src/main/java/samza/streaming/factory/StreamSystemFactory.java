@@ -14,9 +14,12 @@ import samza.streaming.client.*;
 
 public class StreamSystemFactory implements SystemFactory {
 
+    private static final String BASE = "systems.";
+    private static final String SOURCE = ".source.dir";
 
     public SystemConsumer getConsumer(String systemName, Config config, MetricsRegistry registry) {
-        return new StreamConsumer(new StreamClient(), systemName, registry);
+	final String source = config.get(BASE + systemName + SOURCE);
+        return new StreamConsumer(new StreamClient(source), systemName, registry);
     }
 
     public SystemProducer getProducer(String systemName, Config config, MetricsRegistry registry) {
