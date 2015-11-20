@@ -28,7 +28,8 @@ public class StreamClient {
                         stringBuilder.setLength(0);
                     }
                 } else {
-                    stringBuilder.append(e.substring(e.indexOf("]")));
+                    final int index = e.indexOf("]");
+                    stringBuilder.append(index > 0 && e.startsWith("[") ? e.substring(index).trim() : e.trim());
                 }
 
             });

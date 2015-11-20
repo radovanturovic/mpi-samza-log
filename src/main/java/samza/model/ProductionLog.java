@@ -3,6 +3,7 @@ package samza.model;
 import java.util.HashMap;
 
 public class ProductionLog {
+
 	private String content;
 	private String date;
 	private String response;
@@ -10,6 +11,7 @@ public class ProductionLog {
 
 	public ProductionLog() {
 		super();
+		parameters = new HashMap<>();
 	}
 
 	public ProductionLog(String content, String date, String response,
@@ -49,8 +51,12 @@ public class ProductionLog {
 		return parameters;
 	}
 
-	public void setParameters(HashMap<String, String> parameters) {
-		this.parameters = parameters;
+	public String getParameter(String key) {
+		return parameters.get(key);
+	}
+
+	public boolean putParameter(String key, String value) {
+		return parameters.put(key, value) != null ? true : false;
 	}
 
 }
