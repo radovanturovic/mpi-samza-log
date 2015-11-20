@@ -34,7 +34,7 @@ public class StreamClient {
 
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Some IOException: {}", e);
         }
         /* --for testing purposes
         active = true;
@@ -55,7 +55,7 @@ public class StreamClient {
         	try {
 				linkProcessor.processLink(queue.take());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				log.error("Exception in stream: {}", e);
 			}
         }
     }
