@@ -31,7 +31,8 @@ public class DataStreamTask implements StreamTask {
 
         final String[] lines = logLines.split("\n");
         ProductionLog productionLog = new ProductionLog();
-
+        productionLog.setContent(logLines);
+        
         for (String line : lines) {
             if (line.startsWith("Processing")) {
                 processDate(line, productionLog);
@@ -39,7 +40,7 @@ public class DataStreamTask implements StreamTask {
                 processJson(line, productionLog);
             } else if (line.startsWith("Completed")) {
                 processLink(line, productionLog);
-            }
+            } 
         }
 
         try {

@@ -19,7 +19,7 @@ public enum DBManager {
 	
 	private DBManager(){
 		try {
-			client = new MongoClient("192.168.0.70",27017);
+			client = new MongoClient("localhost",27017);
 		} catch (Exception e) {
 			System.out.println("Error instantiating mongo client!");
 			e.printStackTrace();

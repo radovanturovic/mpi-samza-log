@@ -17,6 +17,7 @@ public class StreamClient {
 
     public StreamClient(String source) {
         StringBuilder stringBuilder = new StringBuilder();
+        active = true;
         try (Stream<String> stream = Files.lines(Paths.get(source), Charset.defaultCharset())) {
             stream.filter(e -> e != null || !e.isEmpty()).forEach(e -> {
                 if (e.startsWith("\n")) {
@@ -36,8 +37,11 @@ public class StreamClient {
         } catch (IOException e) {
             log.error("Some IOException: {}", e);
         }
-        /* --for testing purposes
-        active = true;
+        
+        
+        /*
+        //for testing purposes
+		active = true;
     	try {
 			queue.put("test");
 		} catch (InterruptedException e) {
