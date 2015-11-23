@@ -31,16 +31,19 @@ public class DataStreamTask implements StreamTask {
 
         final String[] lines = logLines.split("\n");
         ProductionLog productionLog = new ProductionLog();
-        productionLog.setContent(logLines);
-        
+        productionLog.setContent(lines.length + "");
+
+        String trimmedLine;
+
         for (String line : lines) {
-            if (line.startsWith("Processing")) {
-                processDate(line, productionLog);
-            } else if (line.startsWith("Parameters")) {
-                processJson(line, productionLog);
-            } else if (line.startsWith("Completed")) {
-                processLink(line, productionLog);
-            } 
+            trimmedLine = line.trim();
+            if (trimmedLine.startsWith("Processing")) {
+                processDate(trimmedLine, productionLog);
+            } else if (trimmedLine.startsWith("Parameters")) {
+                processJson(trimmedLine, productionLog);
+            } else if (trimmedLine.startsWith("Completed")) {
+                processLink(trimmedLine, productionLog);
+            }
         }
 
         try {
@@ -59,17 +62,17 @@ public class DataStreamTask implements StreamTask {
 
     private void processLink(String line, ProductionLog productionLog) {
         final int index = line.indexOf("[");
-        final String response = line.substring(line.indexOf("|"), index).trim();
-        final String link = line.substring(index, line.length() - 1);
+        final String response = line.substring(line.indexOf("|") + 2, index).trim();
+        final String link = line.substring(index + 1, line.length() - 1);
         productionLog.putParameter("link", link);
-        productionLog.putParameter("response", response);
+        productionLog.setResponse(response);
     }
 
     private void processJson(String line, ProductionLog productionLog) {
         final String jsonString = line.substring(line.indexOf("{") + 1, line.indexOf("}"));
         for (String keyValuePair : jsonString.split(",")) {
             String[] splitted = keyValuePair.trim().split("=>");
-            productionLog.putParameter(splitted[0], splitted[1]);
+            productionLog.putParameter(splitted[0].trim().substring(1, splitted[0].length() - 1), splitted[1].substring(1, splitted[1].length() - 1));
         }
     }
 }

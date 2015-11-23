@@ -12,15 +12,15 @@ import java.util.stream.Stream;
 
 public class StreamClient {
     private static final Logger log = Logger.getLogger(StreamClient.class);
-    private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>(100);
+    private final BlockingQueue<String> queue = new LinkedBlockingQueue<>(1000000);
     private boolean active;
 
     public StreamClient(String source) {
         StringBuilder stringBuilder = new StringBuilder();
         active = true;
         try (Stream<String> stream = Files.lines(Paths.get(source), Charset.defaultCharset())) {
-            stream.filter(e -> e != null || !e.isEmpty()).forEach(e -> {
-                if (e.startsWith("\n")) {
+            stream.forEach(e -> {
+                if (e.startsWith("\n") || e == null || e.isEmpty()) {
                     try {
                         queue.put(stringBuilder.toString());
                     } catch (InterruptedException ie) {
@@ -29,16 +29,13 @@ public class StreamClient {
                         stringBuilder.setLength(0);
                     }
                 } else {
-                    final int index = e.indexOf("]");
-                    stringBuilder.append(index > 0 && e.startsWith("[") ? e.substring(index).trim() : e.trim());
+                    final int index = e.indexOf("]") + 1;
+                    stringBuilder.append(index > 0 && e.startsWith("[") ? e.substring(index) + "\n" : e + "\n");
                 }
-
             });
         } catch (IOException e) {
             log.error("Some IOException: {}", e);
         }
-        
-        
         /*
         //for testing purposes
 		active = true;
