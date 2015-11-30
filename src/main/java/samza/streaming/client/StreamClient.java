@@ -1,5 +1,7 @@
 package samza.streaming.client;
 
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,11 +9,13 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.log4j.Logger;
-
 public class StreamClient {
+
+	private static final int STARTING_OFFSET = 100000;
+	private static final int MAX_NUMBER = 100000;
+
 	private static final Logger log = Logger.getLogger(StreamClient.class);
-	private final BlockingQueue<String> queue = new LinkedBlockingQueue<>(1000000);
+	private static final BlockingQueue<String> queue = new LinkedBlockingQueue<>(MAX_NUMBER);
 	private boolean active;
 
 	public StreamClient(String source) {
@@ -20,7 +24,11 @@ public class StreamClient {
 		active = true;
 		try (BufferedReader br = new BufferedReader(new FileReader(source))) {
 			String line;
+			int currentLine = 0;
 			while ((line = br.readLine()) != null) {
+				if (++currentLine < STARTING_OFFSET) {
+					continue;
+				}
 				if (line.isEmpty()) {
 					try {
 						queue.put(stringBuilder.toString());
@@ -28,6 +36,10 @@ public class StreamClient {
 						log.error("Error trying to send message to queue {}", ie);
 					} finally {
 						stringBuilder.setLength(0);
+					}
+					if (queue.remainingCapacity() < 10) {
+						br.close();
+						break;
 					}
 				} else {
 					final int index = line.indexOf("]") + 1;
