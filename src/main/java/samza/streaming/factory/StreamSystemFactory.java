@@ -16,10 +16,15 @@ public class StreamSystemFactory implements SystemFactory {
 
     private static final String BASE = "systems.";
     private static final String SOURCE = ".source.dir";
+    private static final String OFFSET = ".offset";
+    private static final String MAX = ".max";
 
     public SystemConsumer getConsumer(String systemName, Config config, MetricsRegistry registry) {
-	final String source = config.get(BASE + systemName + SOURCE);
-        return new StreamConsumer(new StreamClient(source), systemName, registry);
+        final String source = config.get(BASE + systemName + SOURCE);
+        final String offset = config.get(BASE + systemName + OFFSET);
+        final String max = config.get(BASE + systemName + MAX);
+
+        return new StreamConsumer(new StreamClient(source, offset, max), systemName, registry);
     }
 
     public SystemProducer getProducer(String systemName, Config config, MetricsRegistry registry) {

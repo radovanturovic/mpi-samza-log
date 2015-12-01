@@ -33,13 +33,13 @@ public class StreamConsumer extends BlockingEnvelopeMap implements StreamClient.
         streamClient.stop();
     }
 
-	@Override
-	public void processLink(String link) {
+    @Override
+    public void processLink(String link) {
         SystemStreamPartition systemStreamPartition = new SystemStreamPartition(systemName, STREAM_NAME, new Partition(0));
         try {
             put(systemStreamPartition, new IncomingMessageEnvelope(systemStreamPartition, null, null, link));
         } catch (Exception e) {
             LOG.error("Caught an exception", e);
-        }		
-	}
+        }
+    }
 }

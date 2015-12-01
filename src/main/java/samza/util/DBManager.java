@@ -1,5 +1,6 @@
 package samza.util;
 
+import com.mongodb.WriteConcern;
 import org.mongojack.JacksonDBCollection;
 
 import com.mongodb.DB;
@@ -10,69 +11,71 @@ import org.mongojack.WriteResult;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public enum DBManager {
-	INSTANCE;
-	
-	private MongoClient client;
-	private DB dataBase;
-	private DBCollection collection;
-	private JacksonDBCollection JackCollection;
-	
-	private DBManager(){
-		try {
-			client = new MongoClient("localhost",27017);
-		} catch (Exception e) {
-			System.out.println("Error instantiating mongo client!");
-			e.printStackTrace();
-		}
-	}
-	
-	public MongoClient getClient(){
-		return client;
-	}
-	
-	/**
-	 * connect to database 
-	 * @param dbname data base to connect to
-	 * @param colname collection to connect to
-	 * @return
-	 */
-	public boolean connect(String dbname,String colname){
-		dataBase = client.getDB(dbname);
-		collection = dataBase.getCollection(colname);
-		return dataBase!=null && collection!=null;
-	}
-	
-	public boolean changeCollection(String colname){
-		collection = dataBase.getCollection(colname);
-		return collection != null;
-	}
+    INSTANCE;
 
-	/**
-	 * sets the db connection to parse specific objects
-	 * @param objClass
-	 */
-	public synchronized void wrap(Class objClass){
-		this.JackCollection = JacksonDBCollection.wrap(collection, objClass);
-	}
-	
-	/**
-	 * sets the db connection to parse specific objects
-	 * @param objClass
-	 * @param keyClass
-	 */
-	public synchronized void  wrap(Class objClass,Class keyClass){
-		this.JackCollection = JacksonDBCollection.wrap(collection, objClass, keyClass);
-	}
-	
-	/**
-	 * Insert object into specified mongo database and collection
-	 * @param dataBase data base name
-	 * @param collection collection name
-	 * @param obj object to serialize
-	 * @return id inserted object id
-	 */
-	public Object insert(Object obj){
-		WriteResult result = JackCollection.insert(obj);
-		return result.getSavedId();
-	}
+    private MongoClient client;
+    private DB dataBase;
+    private DBCollection collection;
+    private JacksonDBCollection JackCollection;
+
+    DBManager() {
+        try {
+            client = new MongoClient("127.0.0.1", 27017);
+        } catch (Exception e) {
+            System.out.println("Error instantiating mongo client!");
+            e.printStackTrace();
+        }
+    }
+
+    public MongoClient getClient() {
+        return client;
+    }
+
+    /**
+     * connect to database
+     *
+     * @param dbname  data base to connect to
+     * @param colname collection to connect to
+     * @return
+     */
+    public boolean connect(String dbname, String colname) {
+        dataBase = client.getDB(dbname);
+        collection = dataBase.getCollection(colname);
+        return dataBase != null && collection != null;
+    }
+
+    public boolean changeCollection(String colname) {
+        collection = dataBase.getCollection(colname);
+        return collection != null;
+    }
+
+    /**
+     * sets the db connection to parse specific objects
+     *
+     * @param objClass
+     */
+    public synchronized void wrap(Class objClass) {
+        this.JackCollection = JacksonDBCollection.wrap(collection, objClass);
+    }
+
+    /**
+     * sets the db connection to parse specific objects
+     *
+     * @param objClass
+     * @param keyClass
+     */
+    public synchronized void wrap(Class objClass, Class keyClass) {
+        this.JackCollection = JacksonDBCollection.wrap(collection, objClass, keyClass);
+    }
+
+    /**
+     * Insert object into specified mongo database and collection
+     *
+     * @param obj object to serialize
+     * @return id inserted object id
+     */
+    public Object insert(Object obj) {
+        WriteResult result = JackCollection.insert(obj);
+        return result.getSavedId();
+    }
 }
