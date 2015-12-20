@@ -91,7 +91,7 @@ install() {
   else
     echo "Downloading $(basename $DOWNLOAD_URL)..."
     mkdir -p $DOWNLOAD_CACHE_DIR
-    curl "$DOWNLOAD_URL" > "${PACKAGE_FILE}.tmp" -k
+    curl "$DOWNLOAD_URL" > "${PACKAGE_FILE}.tmp"
     mv "${PACKAGE_FILE}.tmp" "$PACKAGE_FILE"
   fi
   rm -rf "$DESTINATION_DIR" "$PACKAGE_DIR"

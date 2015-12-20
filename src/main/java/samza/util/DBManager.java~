@@ -26,9 +26,7 @@ public enum DBManager {
             e.printStackTrace();
         }
     }
-    public DBCollection getCollection() {
-        return collection;
-    }
+
     public MongoClient getClient() {
         return client;
     }
