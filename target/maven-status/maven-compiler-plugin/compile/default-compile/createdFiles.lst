@@ -1,6 +1,12 @@
-samza/streaming/client/StreamClient$LinkProcessor.class
-samza/streaming/factory/StreamSystemFactory.class
+samza/streaming/task/DataPersistTask.class
 samza/streaming/factory/StreamConsumer.class
 samza/util/DBManager.class
+samza/model/ProductionLog.class
 samza/streaming/task/DataStreamTask.class
 samza/streaming/client/StreamClient.class
+samza/streaming/client/StreamClient$LinkProcessor.class
+samza/streaming/factory/StreamSystemFactory.class
+samza/model/Transaction.class
+standalone/transactions/App.class
+standalone/weka/MongoToArff.class
+standalone/weka/WekaProcessing.class
